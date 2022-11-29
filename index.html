@@ -6,17 +6,21 @@
     <base href="//webapi.amap.com/ui/1.1/ui/geo/DistrictExplorer/examples/" />
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width">
     <title>行政区浏览</title>
-    <link rel="stylesheet" type="text/css" href="./area.css">
+     <style>
+    html,
+    body,
+    #container {
+        width: 100%;
+        height: 100%;
+        margin: 0px;
+    }
+       </style>
 </head>
 
 <body>
-    <div id="outer-box">
+    
         <div id="container" tabindex="0"></div>
-        <div id="panel" class="scrollbar1">
-            <ul id="area-tree">
-            </ul>
-        </div>
-    </div>
+    
     <script type="text/javascript" src='//webapi.amap.com/maps?v=2.0&key=da5244e414d297985be510cf4ea58bfd'></script>
     <!-- UI组件库 1.0 -->
     <script src="//webapi.amap.com/ui/1.1/main.js?v=1.1.1"></script>
@@ -69,7 +73,7 @@
                 tipMarker.setPosition(position || props.center);
             }
 
-            $('#area-tree').find('h2[data-adcode="' + props.adcode + '"]').toggleClass('hover', isHover);
+
 
             //更新相关多边形的样式
             var polys = districtExplorer.findFeaturePolygonsByAdcode(props.adcode);
@@ -123,66 +127,9 @@
         });
 
         //绘制区域面板的节点
-        function renderAreaPanelNode(ele, props, color) {
-
-            var $box = $('<li/>').addClass('lv_' + props.level);
-
-            var $h2 = $('<h2/>').addClass('lv_' + props.level).attr({
-                'data-adcode': props.adcode,
-                'data-level': props.level,
-                'data-children-num': props.childrenNum || void(0),
-                'data-center': props.center.join(',')
-            }).html(props.name).appendTo($box);
-
-            if (color) {
-                $h2.css('borderColor', color);
-            }
-
-            //如果存在子节点
-            if (props.childrenNum > 0) {
-
-                //显示隐藏
-                $('<div class="showHideBtn"></div>').appendTo($box);
-
-                //子区域列表
-                $('<ul/>').addClass('sublist lv_' + props.level).appendTo($box);
-
-                $('<div class="clear"></div>').appendTo($box);
-
-                if (props.level !== 'country') {
-                    $box.addClass('hide-sub');
-                }
-            }
-
-            $box.appendTo(ele);
-        }
 
 
         //填充某个节点的子区域列表
-        function renderAreaPanel(areaNode) {
-
-            var props = areaNode.getProps();
-
-            var $subBox = $('#area-tree').find('h2[data-adcode="' + props.adcode + '"]').siblings('ul.sublist');
-
-            if (!$subBox.length && props.childrenNum) {
-                //父节点不存在，先创建
-                renderAreaPanelNode($('#area-tree'), props);
-                $subBox = $('#area-tree').find('ul.sublist');
-            }
-            if ($subBox.attr('data-loaded') === 'rendered') {
-                return;
-            }
-
-            $subBox.attr('data-loaded', 'rendered');
-
-            var subFeatures = areaNode.getSubFeatures();
-
-            //填充子区域
-            for (var i = 0, len = subFeatures.length; i < len; i++) {
-                renderAreaPanelNode($subBox, areaNode.getPropsOfFeature(subFeatures[i]), colors[i % colors.length]);
-            }
-        }
 
         //绘制某个区域的边界
         function renderAreaPolygons(areaNode) {
@@ -229,7 +176,7 @@
             renderAreaPolygons(areaNode);
 
             //更新选中节点的class
-            var $nodeEles = $('#area-tree').find('h2');
+
 
             $nodeEles.removeClass('selected');
 
@@ -289,58 +236,13 @@
                     return;
                 }
 
-                renderAreaPanel(areaNode);
+
 
                 if (callback) {
                     callback(null, areaNode);
                 }
             });
         }
-
-        $('#area-tree').on('mouseenter mouseleave', 'h2[data-adcode]', function(e) {
-
-            if (e.type === 'mouseleave') {
-                districtExplorer.setHoverFeature(null);
-                return;
-            }
-
-            var adcode = $(this).attr('data-adcode');
-
-            districtExplorer.setHoverFeature(currentAreaNode.getSubFeatureByAdcode(adcode));
-        });
-
-
-        $('#area-tree').on('click', 'h2', function() {
-            var adcode = $(this).attr('data-adcode');
-            switch2AreaNode(adcode);
-        });
-
-        $('#area-tree').on('click', '.showHideBtn', function() {
-
-            var $li = $(this).closest('li');
-
-            $li.toggleClass('hide-sub');
-
-            if (!$li.hasClass('hide-sub')) {
-
-                //子节点列表被展开
-                var $subList = $li.children('ul.sublist');
-
-                //尚未加载
-                if (!$subList.attr('data-loaded')) {
-
-                    $subList.attr('data-loaded', 'loading');
-
-                    $li.addClass('loading');
-
-                    //加载
-                    loadAreaNode($li.children('h2').attr('data-adcode'), function() {
-
-                        $li.removeClass('loading');
-                    });
-                }
-            }
-        });
 
         //全国
         switch2AreaNode(100000);
