@@ -1,20 +1,46 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html>
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>高德地图</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width">
+    <title>地图平移</title>
+    <link rel="stylesheet" href="https://a.amap.com/jsapi_demos/static/demo-center/css/demo-center.css" />
+    <script src="https://webapi.amap.com/maps?v=1.4.15&key=da5244e414d297985be510cf4ea58bfd"></script>
+    <script type="text/javascript" src="https://cache.amap.com/lbs/static/addToolbar.js"></script>
+   
+   <style>
+    html,
+    body,
+    #container {
+        width: 100%;
+        height: 100%;
+    }
+  </style>
 </head>
 <body>
-   <div id="mapContainer"> </div>
- <script type="text/javascript" src="https://webapi.amap.com/maps?v=2.0&key=da5244e414d297985be510cf4ea58bfd&plugin=AMap.Visual"></script> 
-<script type="text/javascript" >
-   var map = new AMap.Map('mapContainer',{
-       zoom: 12,
-       center: [116.39,39.9]
-   });
-   var visual = new AMap.Visual('amap://visual/<可视化项目ID>', map);
-</script> 
+<div id="container"></div>
+<div class="input-card" style="width: auto">
+    <div class="input-item">
+        <input id="piexBtn" type="button" class="btn" value="平移像素值：(50,100)"/>
+    </div>
+    <div class="input-item">
+        <input id="pantoBtn" type="button" class="btn" value="地图中心点平移至：(116.405467,39.907761)"/>
+    </div>
+</div>
+<script>
+    var map = new AMap.Map('container', {
+        resizeEnable: true,
+        zoom: 13,
+        center: [116.397428, 39.90923]
+    });
+
+    AMap.event.addDomListener(document.getElementById('piexBtn'), 'click', function() {
+        map.panBy(50, 100);
+    });
+    AMap.event.addDomListener(document.getElementById('pantoBtn'), 'click', function() {
+        map.panTo([116.405467, 39.907761]);
+    });
+</script>
 </body>
 </html>
