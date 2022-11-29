@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>高德地图</title>
+</head>
+<body>
+ <script type="text/javascript" src="https://webapi.amap.com/maps?v=2.0&key=da5244e414d297985be510cf4ea58bfd&plugin=AMap.Visual"></script> 
+<script type="text/javascript" >
+   var map = new AMap.Map('mapContainer',{
+       zoom: 12,
+       center: [116.39,39.9]
+   });
+   var visual = new AMap.Visual('amap://visual/<可视化项目ID>', map);
+</script> 
+</body>
+</html>
