@@ -175,18 +175,8 @@
 
             renderAreaPolygons(areaNode);
 
-            //更新选中节点的class
+    
 
-
-            $nodeEles.removeClass('selected');
-
-            var $selectedNode = $nodeEles.filter('h2[data-adcode=' + areaNode.getAdcode() + ']').addClass('selected');
-
-            //展开下层节点
-            $selectedNode.closest('li').removeClass('hide-sub');
-
-            //折叠下层的子节点
-            $selectedNode.siblings('ul.sublist').children().addClass('hide-sub');
         }
 
         //切换区域
