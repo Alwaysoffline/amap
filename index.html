@@ -43,7 +43,7 @@
         });
 
         //当前聚焦的区域
-        var currentAreaNode = 320100;
+        var currentAreaNode = null;
 
         //鼠标hover提示内容
         var $tipMarkerContent = $('<div class="tipMarker top"></div>');
@@ -68,7 +68,7 @@
             if (isHover) {
 
                 //更新提示内容
-                $tipMarkerContent.html(props.name);
+                //$tipMarkerContent.html(props.adcode + '' + props.name);
                 //更新位置
                 tipMarker.setPosition(position || props.center);
             }
@@ -235,7 +235,7 @@
         }
 
         //全国
-        switch2AreaNode(100000);
+        switch2AreaNode(320100);
     });
     </script>
     <script type="text/javascript" src="//webapi.amap.com/demos/js/liteToolbar.js?v=1.0.11"></script>
