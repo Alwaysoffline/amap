@@ -43,7 +43,7 @@
         });
 
         //当前聚焦的区域
-        var currentAreaNode = null;
+        var currentAreaNode = 320100;
 
         //鼠标hover提示内容
         var $tipMarkerContent = $('<div class="tipMarker top"></div>');
@@ -68,7 +68,7 @@
             if (isHover) {
 
                 //更新提示内容
-                $tipMarkerContent.html(props.adcode + ': ' + props.name);
+                $tipMarkerContent.html(props.name);
                 //更新位置
                 tipMarker.setPosition(position || props.center);
             }
