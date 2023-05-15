@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>切换全国、省、市三个缩放级别的按钮</title>
+    <style>
+        #container {
+            width: 600px;
+            height: 400px;
+        }
+        #buttons {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+        }
+        button {
+            margin: 5px;
+        }
+    </style>
+    <!--引入高德地图JSAPI-->
+    <script src="https://webapi.amap.com/maps?v=1.4.15&key=您申请的key值"></script>
+</head>
+<body>
+    <!--创建地图容器-->
+    <div id="container"></div>
+    <!--创建按钮容器-->
+    <div id="buttons">
+        <button id="country">全国</button>
+        <button id="province">省</button>
+        <button id="city">市</button>
+    </div>
+    <script>
+        //初始化地图
+        var map = new AMap.Map('container', {
+            zooms: [3, 18], //设置地图缩放级别范围为3-18
+            zoom: 10 //设置地图初始化缩放级别为10
+        });
+        //获取按钮元素
+        var countryButton = document.getElementById('country');
+        var provinceButton = document.getElementById('province');
+        var cityButton = document.getElementById('city');
+        //定义全国、省、市三个缩放级别的数值
+        var countryZoom = 4; //全国缩放级别为4
+        var provinceZoom = 7; //省缩放级别为7
+        var cityZoom = 10; //市缩放级别为10
+        //给按钮添加点击事件
+        countryButton.onclick = function() {
+            //设置地图中心点为全国，并设置缩放级别为4
+            map.setCity('中国', function() {
+                map.setZoom(countryZoom);
+            });
+        };
+        provinceButton.onclick = function() {
+            //设置地图中心点为当前所在省，并设置缩放级别为7
+            map.getCity(function(result) {
+                map.setCity(result.province, function() {
+                    map.setZoom(provinceZoom);
+                });
+            });
+        };
+        cityButton.onclick = function() {
+            //设置地图中心点为当前所在市，并设置缩放级别为10
+            map.getCity(function(result) {
+                map.setCity(result.city, function() {
+                    map.setZoom(cityZoom);
+                });
+            });
+        };
+    </script>
+</body>
+</html>
