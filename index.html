@@ -27,8 +27,18 @@
     <script type="text/javascript">
     //创建地图
     var map = new AMap.Map('container', {
-        zoom: 4
+         zooms: [4, 10], //设置地图缩放级别范围为4-10
+         zoom: 4 //设置地图初始化缩放级别为4
     });
+    //监听地图缩放事件
+        map.on('zoomend', function() {
+            var currentZoom = map.getZoom(); //获取当前缩放级别
+            if (currentZoom > 4 && currentZoom < 6) {
+                map.setZoom(6); //如果缩放到4-6之间，自动跳到6
+            } else if (currentZoom > 6 && currentZoom < 10) {
+                map.setZoom(10); //如果缩放到6-10之间，自动跳到10
+            }
+        });    
     //just some colors
     var colors = [
         "#3366cc"
