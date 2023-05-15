@@ -26,9 +26,20 @@
     <script src="//webapi.amap.com/ui/1.1/main.js?v=1.1.1"></script>
     <script type="text/javascript">
     //初始化地图
-        var map = new AMap.Map('container', {
-            zooms: [6, 9], //设置地图缩放级别范围为6-9
-            zoom: 9 //设置地图初始化缩放级别为9
+    var map = new AMap.Map('container', {
+        zooms: [5, 9], //设置地图缩放级别范围为5-9
+        zoom: 7 //设置地图初始化缩放级别为7
+    });
+    //监听地图缩放事件，设置3个级别，分别为9,7,5
+    map.on('zoomend', function() {
+        var currentZoom = map.getZoom(); //获取当前缩放级别
+        if (currentZoom > 5 && currentZoom < = 6.35) {
+            map.setZoom(5); //如果缩放到5-6.35之间，自动跳到5
+        } else if (currentZoom > 6.35 && currentZoom < = 7.65) {
+            map.setZoom(7); //如果缩放到6.35-7.65之间，自动跳到7
+        }else if (currentZoom > 7.65 && currentZoom < 9) {
+            map.setZoom(9); //如果缩放到7.65-9之间，自动跳到9
+        }
     });   
     //just some colors
     var colors = [
